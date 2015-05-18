@@ -1,51 +1,18 @@
-	<% basic_debt = credit_sum / number_of_periods %>
-	<% credit_balance = credit_sum %>
-	<% annuity_credit_balance = credit_sum %>
- 	<% credit_overpayment = 0 %>
- 	<% annuity_overpayment = 0 %>
- 	<% annuity_liquidated_debt = 0 %>
- 	<% month_interest_rate = (interest_rate / 100) / 12 %>
-		<% d1 = ((1 + month_interest_rate)**number_of_periods) - 1 %>
-		<% s1 = month_interest_rate + (month_interest_rate / d1) %>
-	<% annuity_due = credit_sum * s1 %>
 	
 	Дифференцированый платеж: <br>
  	Сумма возврата основного долга <br>
- 		<%= basic_debt.round(2) %> <br>
+ 		<%= @basic_debt.round(2) %> <br>
  	<br>
 	
-	<% (1..number_of_periods).each do |i| %>
-	  <% extra_percents = credit_balance * month_interest_rate %>
-	  <% credit_balance = credit_sum - basic_debt*i %>
-	  <% credit_overpayment += extra_percents %>
-	  <% payment = extra_percents + basic_debt %>
-	  	<%= i %>
-	   	Взнос <%= payment.round(2) %> <br>
-	  	Проценты <%= extra_percents.round(2) %> <br>
-	  	Остаток кредита <%= credit_balance.round(2) %><br>
-	  	<br>
-	<% end %>
 	
-	Сумма переплат <%= credit_overpayment.round(2) %><br>
+	Сумма переплат <%= @credit_overpayment.round(2) %><br>
 	
 	Сумма аннуитетного платежа (равными суммами) <br>
-	<%= annuity_due.round(2) %> <br>
+	<%= @annuity_due.round(2) %> <br>
 	<br>
 	
-	<% (1..number_of_periods).each do |i| %>
-		<% annuity_extra_percents = annuity_credit_balance * month_interest_rate %>
-		<% annuity_basic_debt = annuity_due - annuity_extra_percents %>
-		<% annuity_liquidated_debt += annuity_basic_debt %>
-		<% annuity_credit_balance  = credit_sum - annuity_liquidated_debt %>
-		<% annuity_overpayment += annuity_extra_percents %>
-			<%= i %>
-		   	Погашение основного долга <%= annuity_basic_debt.round(2) %> <br>
-		  	Проценты <%= annuity_extra_percents.round(2) %> <br>
-		  	Остаток кредита <%= annuity_credit_balance.round(2) %><br>
-		  	<br>
-	<% end %>
 	
-	Сумма переплат <%= annuity_overpayment.round(2) %>
+	Сумма переплат <%= @annuity_overpayment.round(2) %>
 	<br>
 	
 	<a href='/'>Back</a>
